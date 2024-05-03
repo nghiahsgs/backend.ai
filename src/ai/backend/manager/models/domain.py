@@ -96,6 +96,11 @@ class DomainRow(Base):
         secondary="sgroups_for_domains",
         back_populates="domains",
     )
+    networks = relationship(
+        "NetworkRow",
+        back_populates="domain_row",
+        primaryjoin="DomainRow.name==foreign(NetworkRow.domain_name)",
+    )
 
 
 class Domain(graphene.ObjectType):

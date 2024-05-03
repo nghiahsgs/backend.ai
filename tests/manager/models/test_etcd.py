@@ -44,6 +44,7 @@ def context(etcd_container) -> GraphQueryContext:  # noqa: F811
         user={"domain": "default", "role": "superadmin"},
         access_key="AKIAIOSFODNN7EXAMPLE",
         db=None,  # type: ignore
+        network_plugin_ctx=None,  # type: ignore
         redis_stat=None,  # type: ignore
         redis_image=None,  # type: ignore
         redis_live=None,  # type: ignore
