@@ -145,7 +145,7 @@ class Agent(graphene.ObjectType):
     container_count = graphene.Int()
 
     # Dynamic fields.
-    fgpu_slots = graphene.JSONString()
+    gpu_alloc_map = graphene.JSONString()
 
     # Legacy fields
     mem_slots = graphene.Int()
@@ -251,7 +251,7 @@ class Agent(graphene.ObjectType):
         cnt = await redis_helper.execute(rs, lambda r: r.get(f"container_count.{self.id}"))
         return int(cnt) if cnt is not None else 0
 
-    async def resolve_fgpu_slots(self, info: graphene.ResolveInfo) -> Mapping[str, int]:
+    async def resolve_gpu_alloc_map(self, info: graphene.ResolveInfo) -> Mapping[str, int]:
         ctx: GraphQueryContext = info.context
         result = await ctx.registry.scan_gpu_alloc_map(self.id)
         return result
