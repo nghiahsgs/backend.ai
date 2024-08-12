@@ -5,8 +5,13 @@ import sys
 from pathlib import Path
 from typing import Any, Dict, Mapping, MutableMapping, Optional, Tuple, Union, cast
 
+import humps
 import tomli
 import trafaret as t
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+)
 
 from . import validators as tx
 from .etcd import AsyncEtcd, ConfigScopes
@@ -28,6 +33,23 @@ __all__ = (
     "check",
     "merge",
 )
+
+
+class BaseSchema(BaseModel):
+    model_config = ConfigDict(populate_by_name=True, from_attributes=True, extra="allow")
+
+
+# TODO: Use pydantic alias_generators after v2.8
+# ref: https://docs.pydantic.dev/2.8/api/config/#pydantic.alias_generators.to_snake
+def config_key_to_snake_case(o: Any) -> Any:
+    match o:
+        case dict():
+            return {humps.dekebabize(k): config_key_to_snake_case(v) for k, v in o.items()}
+        case list():
+            return [config_key_to_snake_case(i) for i in o]
+        case _:
+            return o
+
 
 etcd_config_iv = t.Dict({
     t.Key("etcd"): t.Dict({
