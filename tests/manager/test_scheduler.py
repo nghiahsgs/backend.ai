@@ -418,9 +418,12 @@ existing_session_kernel_ids = [
     ),
 ]
 
-common_image_ref = ImageRef("lablup/python:3.6-ubunt18.04", ["*"], architecture=ARCH_FOR_TEST)
+common_image_ref = ImageRef(
+    "lablup/python:3.6-ubunt18.04", "lablup", ["*"], architecture=ARCH_FOR_TEST
+)
 common_image = ImageRow(
     name=common_image_ref.canonical,
+    project=common_image_ref.project,
     image=common_image_ref.name,
     tag=common_image_ref.tag,
     registry=common_image_ref.registry,
