@@ -14,7 +14,8 @@ from ai.backend.common.types import (
 )
 
 from ..models import AgentRow, SessionRow
-from .types import AbstractScheduler, KernelInfo
+from ..models.kernel import KernelRow
+from .types import AbstractScheduler
 
 
 def get_slot_index(slotname: str, agent_selection_resource_priority: list[str]) -> int:
@@ -147,7 +148,7 @@ class FIFOSlotScheduler(AbstractScheduler):
     def assign_agent_for_kernel(
         self,
         agents: Sequence[AgentRow],
-        pending_kernel: KernelInfo,
+        pending_kernel: KernelRow,
         agent_selection_strategy: AgentSelectionStrategy,
         agent_selection_resource_priority: list[str],
     ) -> Optional[AgentId]:
@@ -213,7 +214,7 @@ class LIFOSlotScheduler(AbstractScheduler):
     def assign_agent_for_kernel(
         self,
         agents: Sequence[AgentRow],
-        pending_kernel: KernelInfo,
+        pending_kernel: KernelRow,
         agent_selection_strategy: AgentSelectionStrategy,
         agent_selection_resource_priority: list[str],
     ) -> Optional[AgentId]:

@@ -18,8 +18,9 @@ from ai.backend.common.types import (
 )
 
 from ..models import AgentRow, SessionRow
+from ..models.kernel import KernelRow
 from ..models.scaling_group import ScalingGroupOpts
-from .types import AbstractScheduler, KernelInfo
+from .types import AbstractScheduler
 
 log = BraceStyleAdapter(logging.getLogger("ai.backend.manager.scheduler"))
 
@@ -193,7 +194,7 @@ class DRFScheduler(AbstractScheduler):
     def assign_agent_for_kernel(
         self,
         agents: Sequence[AgentRow],
-        pending_kernel: KernelInfo,
+        pending_kernel: KernelRow,
         agent_selection_strategy: AgentSelectionStrategy,
         agent_selection_resource_priority: list[str],
     ) -> Optional[AgentId]:

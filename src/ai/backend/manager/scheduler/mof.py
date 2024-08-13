@@ -13,7 +13,8 @@ from ai.backend.common.types import (
 )
 
 from ..models import AgentRow, SessionRow
-from .types import AbstractScheduler, KernelInfo
+from ..models.kernel import KernelRow
+from .types import AbstractScheduler
 
 
 class MOFScheduler(AbstractScheduler):
@@ -74,7 +75,7 @@ class MOFScheduler(AbstractScheduler):
     def assign_agent_for_kernel(
         self,
         agents: Sequence[AgentRow],
-        pending_kernel: KernelInfo,
+        pending_kernel: KernelRow,
         agent_selection_strategy: AgentSelectionStrategy,
         agent_selection_resource_priority: list[str],
     ) -> Optional[AgentId]:

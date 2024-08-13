@@ -109,7 +109,6 @@ from .types import (
     AbstractScheduler,
     AgentAllocationContext,
     KernelAgentBinding,
-    PendingSession,
     PredicateResult,
     SchedulingContext,
 )
@@ -147,14 +146,6 @@ def load_scheduler(
             scheduler_cls = entrypoint.load()
             return scheduler_cls(sgroup_opts, scheduler_config)
     raise ImportError("Cannot load the scheduler plugin", name)
-
-
-StartTaskArgs = Tuple[
-    Tuple[Any, ...],
-    SchedulingContext,
-    Tuple[PendingSession, List[KernelAgentBinding]],
-    List[Tuple[str, Union[Exception, PredicateResult]]],
-]
 
 
 class SchedulerDispatcher(aobject):
