@@ -419,7 +419,12 @@ existing_session_kernel_ids = [
 ]
 
 common_image_ref = ImageRef(
-    "lablup/python:3.6-ubunt18.04", "lablup", ["*"], architecture=ARCH_FOR_TEST
+    name="python",
+    project="lablup",
+    tag="3.6-ubuntu18.04",
+    registry="index.docker.io",
+    architecture=ARCH_FOR_TEST,
+    is_local=False,
 )
 common_image = ImageRow(
     name=common_image_ref.canonical,
