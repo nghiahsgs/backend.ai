@@ -470,10 +470,7 @@ class AgentRegistry:
             async with self.db.begin_readonly_session() as session:
                 image_row = await ImageRow.resolve(
                     session,
-                    [
-                        ImageIdentifier(image_ref.canonical, image_ref.architecture),
-                        ImageAlias(image_ref.canonical),
-                    ],
+                    [image_ref],
                 )
             if (
                 _owner_id := image_row.labels.get("ai.backend.customized-image.owner")
@@ -3353,7 +3350,7 @@ class AgentRegistry:
                     email,
                     filename=filename,
                     extra_labels=extra_labels,
-                    canonical=kernel.image,
+                    canonical=ParsedImageStr.parse(kernel.image, [registry]).canonical,
                 )
         return resp
 
