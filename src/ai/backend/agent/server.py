@@ -53,6 +53,7 @@ from ai.backend.common.bgtask import ProgressReporter
 from ai.backend.common.docker import ImageRef
 from ai.backend.common.etcd import AsyncEtcd, ConfigScopes
 from ai.backend.common.events import (
+    ImagePullFailedEvent,
     ImagePullFinishedEvent,
     ImagePullStartedEvent,
     KernelLifecycleEventReason,
@@ -515,13 +516,26 @@ class AgentRPCServer(aobject):
                         agent_id=self.agent.id,
                     )
                 )
-                await self.agent.pull_image(img_ref, img_conf["registry"])
-            await self.agent.produce_event(
-                ImagePullFinishedEvent(
-                    image=str(img_ref),
-                    agent_id=self.agent.id,
+                err_msg = await self.agent.pull_image_in_background(
+                    reporter, img_ref, img_conf["registry"]
                 )
-            )
+
+            match err_msg:
+                case None:
+                    await self.agent.produce_event(
+                        ImagePullFinishedEvent(
+                            image=str(img_ref),
+                            agent_id=self.agent.id,
+                        )
+                    )
+                case str():
+                    await self.agent.produce_event(
+                        ImagePullFailedEvent(
+                            image=str(img_ref),
+                            agent_id=self.agent.id,
+                            msg=err_msg,
+                        )
+                    )
 
         task_id = await bgtask_mgr.start(_pull)
         return {
