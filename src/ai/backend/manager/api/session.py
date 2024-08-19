@@ -1152,6 +1152,7 @@ async def convert_session_to_image(
                     ContainerRegistryRow.url,
                     ContainerRegistryRow.username,
                     ContainerRegistryRow.password,
+                    ContainerRegistryRow.project,
                 )
             )
         )
