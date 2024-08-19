@@ -1229,6 +1229,7 @@ class SessionRow(Base):
             case _:
                 return None
 
+
 class SessionDependencyRow(Base):
     __tablename__ = "session_dependencies"
     session_id = sa.Column(
