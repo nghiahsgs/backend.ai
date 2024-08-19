@@ -2,7 +2,7 @@ import datetime
 import enum
 import logging
 import uuid
-from typing import Any, Final, Mapping, overload
+from typing import TYPE_CHECKING, Any, Final, Mapping, overload
 
 import graphene
 import sqlalchemy as sa
@@ -27,13 +27,16 @@ from .base import (
     orm_set_if_set,
     simple_db_mutate,
 )
-from .gql import GraphQueryContext
 from .gql_relay import AsyncNode, Connection, ConnectionResolverResult
 from .group import AssocGroupUserRow, GroupRow
 from .minilang import FieldSpecItem, OrderSpecItem
 from .minilang.ordering import QueryOrderParser
 from .minilang.queryfilter import QueryFilterParser
 from .user import UserRole
+
+if TYPE_CHECKING:
+    from .gql import GraphQueryContext
+
 
 __all__: Final[tuple[str, ...]] = (
     "NetworkType",
