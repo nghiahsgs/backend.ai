@@ -1027,7 +1027,6 @@ class ImageRegistry(TypedDict):
     url: str
     username: Optional[str]
     password: Optional[str]
-    project: str
 
 
 class ImageConfig(TypedDict):
