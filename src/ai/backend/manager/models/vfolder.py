@@ -456,6 +456,11 @@ class VFolderRow(Base):
         primaryjoin="GroupRow.id == foreign(VFolderRow.group)",
     )
     permission_rows = relationship(VFolderPermissionRow, back_populates="vfolder_row")
+    storage_volume_row = relationship(
+        "StorageVolumeRow",
+        back_populates="vfolder_rows",
+        primaryjoin="StorageVolumeRow.host_name == foreign(VFolderRow.host)",
+    )
 
     @classmethod
     async def get(
