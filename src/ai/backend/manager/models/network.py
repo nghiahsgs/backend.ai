@@ -25,7 +25,6 @@ from .base import (
     generate_sql_info_for_gql_connection,
     gql_mutation_wrapper,
     orm_set_if_set,
-    simple_db_mutate,
 )
 from .gql_relay import AsyncNode, Connection, ConnectionResolverResult
 from .group import AssocGroupUserRow, GroupRow
@@ -333,9 +332,7 @@ class CreateNetwork(graphene.Mutation):
             network_info = await network_plugin.create_network()
             network_name = network_info.network_id
         except Exception:
-            log.exception(
-                f"Failed to create the inter-container network (plugin: {_driver})"
-            )
+            log.exception(f"Failed to create the inter-container network (plugin: {_driver})")
             raise
 
         async def _do_mutate() -> CreateNetwork:

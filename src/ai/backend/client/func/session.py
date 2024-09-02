@@ -192,6 +192,7 @@ class ComputeSession(BaseFunction):
         owner_access_key: str = None,
         preopen_ports: List[int] = None,
         assign_agent: List[str] = None,
+        attach_network: str | None = None,
     ) -> ComputeSession:
         """
         Get-or-creates a compute session.
@@ -254,7 +255,9 @@ class ComputeSession(BaseFunction):
         :param tag: An optional string to annotate extra information.
         :param owner: An optional access key that owns the created session. (Only
             available to administrators)
+        :param attach_network: An optional string to select which network to attach to session. Must supply network ID (not name).
 
+            .. versionadded:: 24.09.0
         :returns: The :class:`ComputeSession` instance.
         """
         if name is not None:
@@ -292,6 +295,8 @@ class ComputeSession(BaseFunction):
                 "scalingGroup": scaling_group,
             },
         }
+        if api_session.get().api_version >= (9, "20240915"):
+            params["config"]["attach_network"] = attach_network
         if api_session.get().api_version >= (6, "20220315"):
             params["dependencies"] = dependencies
             params["callback_url"] = callback_url

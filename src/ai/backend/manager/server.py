@@ -137,7 +137,7 @@ LATEST_REV_DATES: Final = {
     8: "20240315",
     9: "20240915",
 }
-LATEST_API_VERSION: Final = "v8.20240315"
+LATEST_API_VERSION: Final = "v9.20240915"
 
 log = BraceStyleAdapter(logging.getLogger(__spec__.name))
 
