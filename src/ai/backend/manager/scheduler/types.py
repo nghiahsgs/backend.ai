@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import logging
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from typing import (
     Any,
     Final,
@@ -9,7 +9,6 @@ from typing import (
     Mapping,
     MutableMapping,
     Optional,
-    Protocol,
     Self,
     Sequence,
     Set,
@@ -95,15 +94,6 @@ class KernelAgentBinding:
 class PredicateResult:
     passed: bool
     message: Optional[str] = None
-
-
-class SchedulingPredicate(Protocol):
-    async def __call__(
-        self,
-        db_conn: SAConnection,
-        sched_ctx: SchedulingContext,
-        sess_ctx: PendingSession,
-    ) -> PredicateResult: ...
 
 
 class AbstractScheduler(ABC):
